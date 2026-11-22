@@ -321,9 +321,9 @@ function drawGuard(state, ctx, g) {
   // vision cone — the judge must see it
   const suspicion = g.suspicion;
   const coneColor = g.state === 'alert'
-    ? 'rgba(255, 45, 45, 0.42)'
+    ? 'rgba(255, 45, 45, 0.34)'
     : suspicion > 0.5
-      ? `rgba(255, 140, 40, ${0.26 + suspicion * 0.2})`
+      ? `rgba(255, 140, 40, ${0.20 + suspicion * 0.14})`
       : 'rgba(255, 214, 90, 0.30)';
   const pts = conePolygon(state, g.x, g.y, g.angle, 195, 0.87);
   ctx.fillStyle = coneColor;
@@ -379,7 +379,7 @@ function drawGuard(state, ctx, g) {
 function drawCamera(state, ctx, cam) {
   const disabled = cam.disabled > 0;
   const pts = conePolygon(state, cam.x, cam.y, cam.angle, 175, 0.5);
-  ctx.fillStyle = disabled ? 'rgba(140, 150, 160, 0.16)' : 'rgba(255, 60, 60, 0.30)';
+  ctx.fillStyle = disabled ? 'rgba(140, 150, 160, 0.16)' : 'rgba(255, 60, 60, 0.26)';
   poly(ctx, pts);
   ctx.fill();
   ctx.strokeStyle = disabled ? 'rgba(160,170,180,0.4)' : 'rgba(255, 90, 90, 0.5)';
@@ -421,15 +421,20 @@ function drawPlayer(state, ctx) {
   g.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = g;
   ctx.fillRect(p.x - 64, p.y - 64, 128, 128);
-  // hooded thief: dark cloak, hood, face shadow, direction
+  // hooded thief: dark cloak, hood, face shadow, direction — plus a
+  // bright gold halo ring so the judge can find the thief at a glance
+  // on any floor (the v1 thief was a near-invisible dark dot).
   ctx.save();
   ctx.translate(p.x, p.y);
   ctx.rotate(p.angle);
   ctx.fillStyle = state.disguise > 0 ? '#2e6b4f' : '#23232e';
-  circle(ctx, 0, 0, 12); ctx.fill();
+  circle(ctx, 0, 0, 15); ctx.fill();
   ctx.strokeStyle = '#0c0c12';
   ctx.lineWidth = 2;
-  circle(ctx, 0, 0, 12); ctx.stroke();
+  circle(ctx, 0, 0, 15); ctx.stroke();
+  ctx.strokeStyle = '#ffd65a';
+  ctx.lineWidth = 3;
+  circle(ctx, 0, 0, 18); ctx.stroke();
   // hood point
   ctx.fillStyle = state.disguise > 0 ? '#2e6b4f' : '#2b2b38';
   ctx.beginPath();

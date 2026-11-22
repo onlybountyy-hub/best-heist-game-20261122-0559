@@ -50,12 +50,13 @@ const SCENES = {
     state.alarm = 0;
     state.playTime = 42;
     state.loot = 1500;
+    state.banner = null; // v2: no center banner — it hid the room's heart
   },
   // Bank: thief at the vault mid-drill, alarm SUSPICIOUS, two guards
   // converging with hot cones, one camera hacked dark.
   vault(state) {
     startMission(state, 1, 'emp');
-    at(state, state.player, 19, 7, Math.PI / 2);
+    at(state, state.player, 19, 9, Math.PI / 2); // v2: stood clear of the DRILLING bar (was hidden under it at 19,7)
     state.drill = { ref: state.parsed.vault, progress: 0.62, noiseTimer: 0.4 };
     state.alarm = 1.4;
     state.alarmsRaised = 1;
@@ -72,6 +73,7 @@ const SCENES = {
     state.playTime = 128;
     state.loot = 9000;
     state.weight = 3;
+    state.banner = null; // v2: no center banner — it hid the room's heart
   },
   // Casino: thief in disguise near the count room, chips glinting,
   // camera sweeping, a guard cone crossing the thief's path, alarm 1.
@@ -94,6 +96,7 @@ const SCENES = {
     state.playTime = 173;
     state.loot = 12000;
     state.weight = 2;
+    state.banner = null; // v2: no center banner — it hid the room's heart
   },
   // Museum finale: diamond grabbed, LOCKDOWN, guards chasing, lasers
   // live, thief sprinting for the roof hatch.
@@ -112,7 +115,7 @@ const SCENES = {
     guardAt(state, 0, 22, 15, -Math.PI / 2, 1, 'alert');
     guardAt(state, 1, 30, 15, Math.PI, 1, 'alert');
     guardAt(state, 2, 16, 16, 0, 0.85, 'suspicious');
-    guardAt(state, 3, 33, 17, Math.PI, 0.7, 'alert');
+    guardAt(state, 3, 33, 17, -Math.PI / 2, 0.7, 'alert'); // v2: cone up, was aimed straight down the thief's row
     guardAt(state, 4, 14, 10, Math.PI / 2, 0.5, 'patrol');
     guardAt(state, 5, 25, 10, -Math.PI / 2, 0.4, 'patrol');
     for (const g of state.guards) g.lastSeen = { x: state.player.x, y: state.player.y };
@@ -122,7 +125,7 @@ const SCENES = {
     cameraAt(state, 3, -Math.PI / 2 + 0.4, 0);
     cameraAt(state, 4, -Math.PI / 2 - 0.3, 0);
     state.playTime = 247;
-    state.banner = { text: 'Star secured — RUN', sub: 'Lockdown: reach the roof hatch.', t: 99 };
+    state.banner = null; // v2: HUD already says LOCKDOWN + objective — free the frame
   },
 };
 
